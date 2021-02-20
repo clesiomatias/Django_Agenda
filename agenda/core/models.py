@@ -20,5 +20,6 @@ class Evento(models.Model):
     def get_data_evento(self):
         return self.data_evento.strftime(' no dia %d/%m/%Y às %H:%m hrs.')
         
-        
+    def get_input_evetno(self):
+        return self.data_evento.strftime('%Y-%m-%dT%H:%M')
       
