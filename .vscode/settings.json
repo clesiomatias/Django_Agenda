@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "dev_django/bin/python",
+    "git.ignoreLimitWarning": true
+}
