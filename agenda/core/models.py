@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.utils import timezone
+now = timezone.now()
 
 
 # Create your models here.
@@ -22,4 +25,11 @@ class Evento(models.Model):
         
     def get_input_evento(self):
         return self.data_evento.strftime('%Y-%m-%dT%H:%M')
+    
+    def get_evento_atrasado(self):
+        if self.data_evento < datetime.now(now.tzinfo):
+            return True
+        else:
+            return False
+            
       
