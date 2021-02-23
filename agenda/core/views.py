@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from datetime import date, datetime, timedelta
 from django.http.response  import Http404, JsonResponse
+from django.contrib.auth.models import User
 
 # Create your views here.
 def login_user(request):
@@ -80,3 +81,26 @@ def json_lista_evento(request):
     
     
     return JsonResponse(list(evento), safe=False)
+
+@login_required(login_url='/login/')
+def historico(request):
+    usuario = request.user
+    data_atual = datetime.now() 
+    evento = Evento.objects.filter(usuario=usuario,
+                                   data_evento__lt = data_atual) 
+    dados = {'eventos':evento}
+    return render(request,'historico.html', dados)
+
+def cadastro(request):
+    return render(request, 'cadastro.html')
+
+def cadastro_submit(request):
+    if request.POST:
+        try:
+            usuario = User.objects.create_user(username=request.POST.get('usuario'),
+                                 email=request.POST.get('email'),
+                                 password=request.POST.get('password'))
+        except :
+            messages.error(request, 'Usuário já existe, tente outro')
+            
+    return redirect('/')
